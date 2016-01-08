@@ -1,0 +1,40 @@
+---
+elasticsearch:
+  build: docker-compose.d/elasticsearch
+  ports:
+    - "9200:9200"
+  expose:
+    - "9200"
+
+kibana:
+  build: docker-compose.d/kibana
+  ports:
+    - "5601:5601"
+  links:
+    - elasticsearch
+
+factbeat:
+  build: docker-compose.d/factbeat
+  volumes:
+    - .:/mnt/factbeat:ro
+    - ./test/fixtures/facts:/opt/puppetlabs/facter/facts.d:ro
+  links:
+    - elasticsearch
+
+tester:
+  build: docker-compose.d/python
+  volumes:
+    - .:/mnt/factbeat
+  links:
+    - elasticsearch
+
+linter:
+  build: docker-compose.d/python
+  volumes:
+    - .:/mnt/factbeat
+
+builder:
+  build: docker-compose.d/golang
+  volumes:
+    - ./docker-compose.d/golang/gohome:/go
+    - .:/go/src/github.com/jarpy/factbeat

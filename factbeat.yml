@@ -1,0 +1,6 @@
+input:
+  period: 15
+
+output:
+  elasticsearch:
+      hosts: ["http://elasticsearch:9200"]

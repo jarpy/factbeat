@@ -1,0 +1,3 @@
+cluster.name: docker-factbeat
+node.name: docker-factbeat-00
+network.host: _non_loopback_
