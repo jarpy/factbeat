@@ -23,7 +23,7 @@ unit-test: goget
 
 acceptance-test: build docker
 	docker-compose up -d elasticsearch factbeat
-	docker-compose run tester py.test
+	docker-compose run tester py.test test
 	docker-compose stop
 	docker-compose rm --force
 
