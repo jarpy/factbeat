@@ -7,6 +7,8 @@ they can be stored, analyzed and compared over time.
 
 Building
 ========
+[![Build Status](https://travis-ci.org/jarpy/factbeat.svg?branch=master)](https://travis-ci.org/jarpy/factbeat)
+
 Like all Beats, Factbeat is written in Go. If you are familiar with
 Go, and have a development environment set up, feel free to build
 Factbeat like any other Go program.
