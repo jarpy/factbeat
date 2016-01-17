@@ -20,7 +20,7 @@ func TestDeDotRemovesDottedKeys(t *testing.T) {
 	assert.Zero(t, deDot(deDotFixture)["key.name"])
 }
 
-func TestDeDotTranlsatesNestedKeys(t *testing.T) {
+func TestDeDotTranslatesNestedKeys(t *testing.T) {
 	parent := deDot(deDotFixture)["parent"]
 	child := parent.(map[string]interface{})["dotted_child"]
 	assert.True(t, child.(bool))
