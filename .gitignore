@@ -1,5 +1,7 @@
 factbeat
 factbeat.exe
+factbeat-*.zip
+factbeat-*.tar.gz
 **/.cache
 **/__pycache__
 **/.#

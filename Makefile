@@ -2,9 +2,11 @@
 build: build-linux build-windows
 
 build-linux: go-fmt go-get
+	docker-compose run builder rm -f factbeat
 	docker-compose run -e GOOS=linux builder go build
 
 build-windows: go-fmt go-get
+	docker-compose run builder rm -f factbeat.exe
 	docker-compose run -e GOOS=windows builder go build
 
 go-fmt:
@@ -44,3 +46,16 @@ acceptance-test: build docker
 	docker-compose rm --force
 
 test: unit-test acceptance-test
+
+validate-release:
+ifndef FACTBEAT_RELEASE_VERSION
+	@echo "Please try something like 'FACTBEAT_RELEASE_VERSION=0_1_0 make release'."
+	false
+endif
+
+release: validate-release #build
+	docker-compose run builder tar -czvf factbeat-linux-amd64-$(FACTBEAT_RELEASE_VERSION).tar.gz \
+	factbeat factbeat.template.json factbeat.yml
+	
+	docker-compose run builder zip factbeat-windows-amd64-$(FACTBEAT_RELEASE_VERSION).zip \
+	factbeat.exe factbeat.template.json factbeat.yml
