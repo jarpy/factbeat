@@ -71,7 +71,7 @@ func (fb *Factbeat) Run(b *beat.Beat) error {
 
 		// Run Facter, and feed STDOUT a JSON decoder.
 		// REF: http://www.darrencoxall.com/golang/executing-commands-in-go/
-		cmd := exec.Command("/opt/puppetlabs/bin/facter", "--json")
+		cmd := exec.Command(FACTER_BIN_PATH, "--json")
 		facterOutput, err := cmd.StdoutPipe()
 		if err != nil {
 			log.Fatal(err)

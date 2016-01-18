@@ -10,6 +10,8 @@ kibana:
   build: docker-compose.d/kibana
   ports:
     - "5601:5601"
+  expose:
+    - "5601"
   links:
     - elasticsearch
 
