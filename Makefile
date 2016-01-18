@@ -13,7 +13,7 @@ goget:
 flake8:
 	docker-compose run linter flake8 --exclude='.*' test
 
-# Build all our Docker containers. See docker-compose.yml for the list.
+# Build all our Docker images. See docker-compose.yml for the list.
 docker: build
 	docker-compose stop
 	docker-compose rm --force
