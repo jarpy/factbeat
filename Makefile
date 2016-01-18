@@ -34,7 +34,7 @@ run: docker build-linux
 	docker-compose up elasticsearch factbeat kibana
 
 # Run the unit tests. These are true _unit_ tests, exercising individual Go functions.
-unit-test: goget
+unit-test: go-get
 	docker-compose run builder go test -v . ./beat
 
 # Run the "black box" acceptance tests, injecting data into an Elasticsearch
