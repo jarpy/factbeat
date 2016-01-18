@@ -6,7 +6,7 @@ RUN apt-get $APT_FLAGS update >/dev/null && \
     python \
     python-pip \
     python-flake8
-RUN pip install --upgrade \
+RUN pip install --upgrade --quiet \
     requests \
     retrying \
     pytest
