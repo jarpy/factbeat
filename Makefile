@@ -49,13 +49,13 @@ test: unit-test acceptance-test
 
 validate-release:
 ifndef FACTBEAT_RELEASE_VERSION
-	@echo "Please try something like 'FACTBEAT_RELEASE_VERSION=0_1_0 make release'."
+	@echo "Please try something like 'FACTBEAT_RELEASE_VERSION=0.1.0 make release'."
 	false
 endif
 
-release: validate-release #build
-	docker-compose run builder tar -czvf factbeat-linux-amd64-$(FACTBEAT_RELEASE_VERSION).tar.gz \
+release: validate-release build test
+	docker-compose run builder tar -czvf factbeat-$(FACTBEAT_RELEASE_VERSION)-x84_64.tar.gz \
 	factbeat factbeat.template.json factbeat.yml
 	
-	docker-compose run builder zip factbeat-windows-amd64-$(FACTBEAT_RELEASE_VERSION).zip \
+	docker-compose run builder zip factbeat-$(FACTBEAT_RELEASE_VERSION)-windows.zip \
 	factbeat.exe factbeat.template.json factbeat.yml
