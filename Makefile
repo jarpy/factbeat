@@ -53,9 +53,14 @@ ifndef FACTBEAT_RELEASE_VERSION
 	false
 endif
 
-release: validate-release build test
+release: validate-release clean build test
 	docker-compose run builder tar -czvf factbeat-$(FACTBEAT_RELEASE_VERSION)-x86_64.tar.gz \
-	factbeat factbeat.template.json factbeat.yml
+	  factbeat factbeat.template.json factbeat.yml
 	
-	docker-compose run builder zip factbeat-$(FACTBEAT_RELEASE_VERSION)-windows.zip \
-	factbeat.exe factbeat.template.json factbeat.yml
+	docker-compose run builder zip --junk-paths \
+          factbeat-$(FACTBEAT_RELEASE_VERSION)-windows.zip \
+          factbeat.exe factbeat.template.json factbeat.yml \
+          support/install-service-factbeat.ps1 support/uninstall-service-factbeat.ps1
+
+clean:
+	rm -f factbeat factbeat.exe factbeat-*.zip factbeat-*.tar.gz
