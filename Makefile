@@ -52,6 +52,7 @@ ifndef FACTBEAT_RELEASE_VERSION
 	@echo "Please try something like 'FACTBEAT_RELEASE_VERSION=0.1.0 make release'."
 	false
 endif
+	grep -qF 'Version = "$(FACTBEAT_RELEASE_VERSION)"' main.go
 
 release: validate-release clean build test
 	docker-compose run builder tar -czvf factbeat-$(FACTBEAT_RELEASE_VERSION)-x86_64.tar.gz \
