@@ -54,7 +54,7 @@ ifndef FACTBEAT_RELEASE_VERSION
 endif
 
 release: validate-release build test
-	docker-compose run builder tar -czvf factbeat-$(FACTBEAT_RELEASE_VERSION)-x84_64.tar.gz \
+	docker-compose run builder tar -czvf factbeat-$(FACTBEAT_RELEASE_VERSION)-x86_64.tar.gz \
 	factbeat factbeat.template.json factbeat.yml
 	
 	docker-compose run builder zip factbeat-$(FACTBEAT_RELEASE_VERSION)-windows.zip \
