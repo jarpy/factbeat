@@ -7,7 +7,6 @@ import (
 	"github.com/elastic/beats/libbeat/common"
 	"github.com/elastic/beats/libbeat/logp"
 	"github.com/elastic/beats/libbeat/publisher"
-	"log"
 	"os/exec"
 	"strings"
 	"time"
@@ -82,19 +81,19 @@ func (fb *Factbeat) Run(b *beat.Beat) error {
 		cmd := exec.Command(fb.facterPath, "--json")
 		facterOutput, err := cmd.StdoutPipe()
 		if err != nil {
-			log.Fatal(err)
+			logp.Err("Error opening Facter: %v", err)
 		}
 		if err := cmd.Start(); err != nil {
-			log.Fatal(err)
+			logp.Err("Error running Facter: %v", err)
 		}
 
 		decoder := json.NewDecoder(facterOutput)
 		decoder.UseNumber() // REF: http://stackoverflow.com/a/22346593
 		if err := decoder.Decode(&facts); err != nil {
-			log.Fatal(err)
+			logp.Err("Error making JSON parser: %v", err)
 		}
 		if err := cmd.Wait(); err != nil {
-			log.Fatal(err)
+			logp.Err("Error parsing JSON from Facter: %v", err)
 		}
 
 		event := common.MapStr{
