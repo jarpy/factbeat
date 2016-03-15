@@ -5,6 +5,22 @@ Factbeat is a [Beat](https://www.elastic.co/products/beats) that ships
 [Elasticsearch](https://www.elastic.co/products/elasticsearch), where
 they can be stored, analyzed and compared over time.
 
+Installing
+===========
+Pre-built binaries are availble for Windows and Linux (x86_64) on the [releases page](https://github.com/jarpy/factbeat/releases).
+
+The downloads for both platforms contain:
+* The `factbeat` or `factbeat.exe` binary
+* An example `factbeat.yml` config file
+* The Elasticsearch mapping template: `factbeat.template.json`
+
+It's best to install the mapping template before running Factbeat, with something like:
+```
+curl -XPUT 'http://elasticsearch:9200/_template/factbeat' -d@factbeat.template.json
+```
+
+The Windows archive also contains two Powershell scripts, for registering and removing the Factbeat Windows service.
+
 Building
 ========
 [![Build Status](https://travis-ci.org/jarpy/factbeat.svg?branch=master)](https://travis-ci.org/jarpy/factbeat)
