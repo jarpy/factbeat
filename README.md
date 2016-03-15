@@ -40,8 +40,8 @@ Factbeat like any other Go program.
 
 However...
 
-Containers, containers, containers.
-==================================
+Containers, containers, containers
+----------------------------------
 Factbeat ships with a fully containerized build and test pipeline. It
 provides containers that can build the Go source code and run
 its unit tests. There are also containers that manage acceptance
