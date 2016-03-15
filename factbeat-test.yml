@@ -1,0 +1,7 @@
+input:
+  period: 5
+  facter: "/opt/puppetlabs/puppet/bin/facter"
+
+output:
+  elasticsearch:
+      hosts: ["http://elasticsearch:9200"]

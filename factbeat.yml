@@ -1,5 +1,7 @@
 input:
-  period: 15
+  period: 300
+  # Optional: specify a custom path to Facter.
+  # facter: "/opt/puppetlabs/puppet/bin/facter"
 
 output:
   elasticsearch:

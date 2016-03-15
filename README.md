@@ -5,11 +5,15 @@ Factbeat is a [Beat](https://www.elastic.co/products/beats) that ships
 [Elasticsearch](https://www.elastic.co/products/elasticsearch), where
 they can be stored, analyzed and compared over time.
 
-Required Facter Version
------------------------
-Factbeat only supports Facter 3 (cFacter). The output from Facter 3 is
-more stuctured and more stable than that of Facter 2, which makes for
-a much better experience with Factbeat and Elasticsearch.
+Facter Version
+--------------
+Facter 3 (cFacter) is recommended, and is the default. The output from
+Facter 3 is more structured and more stable than that of Facter 2,
+which makes for a much better experience with Factbeat and
+Elasticsearch.
+
+If you really want to, you can configure the path to Facter, so you
+could point Factbeat at Facter 2 instead.
 
 Installing
 ===========

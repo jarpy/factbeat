@@ -2,4 +2,4 @@
 
 package factbeat
 
-const FACTER_BIN_PATH = "/opt/puppetlabs/bin/facter"
+const FACTER_DEFAULT_PATH = "/opt/puppetlabs/bin/facter"

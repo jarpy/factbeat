@@ -2,4 +2,4 @@
 
 package factbeat
 
-const FACTER_BIN_PATH = "C:/Program Files/Puppet Labs/Puppet/facter/bin/facter.exe"
+const FACTER_DEFAULT_PATH = "C:/Program Files/Puppet Labs/Puppet/facter/bin/facter.exe"

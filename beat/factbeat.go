@@ -14,10 +14,11 @@ import (
 )
 
 type Factbeat struct {
-	period   time.Duration
-	done     chan struct{}
-	FbConfig ConfigSettings
-	events   publisher.Client
+	period     time.Duration
+	facterPath string
+	done       chan struct{}
+	FbConfig   ConfigSettings
+	events     publisher.Client
 }
 
 func deDot(m map[string]interface{}) map[string]interface{} {
@@ -53,6 +54,13 @@ func (fb *Factbeat) Config(b *beat.Beat) error {
 	} else {
 		fb.period = 60 * time.Second
 	}
+
+	if fb.FbConfig.Input.Facter != nil {
+		fb.facterPath = *fb.FbConfig.Input.Facter
+	} else {
+		fb.facterPath = FACTER_DEFAULT_PATH
+	}
+
 	return nil
 }
 
@@ -71,7 +79,7 @@ func (fb *Factbeat) Run(b *beat.Beat) error {
 
 		// Run Facter, and feed STDOUT a JSON decoder.
 		// REF: http://www.darrencoxall.com/golang/executing-commands-in-go/
-		cmd := exec.Command(FACTER_BIN_PATH, "--json")
+		cmd := exec.Command(fb.facterPath, "--json")
 		facterOutput, err := cmd.StdoutPipe()
 		if err != nil {
 			log.Fatal(err)
@@ -110,3 +118,4 @@ func (fb *Factbeat) Cleanup(b *beat.Beat) error {
 func (fb *Factbeat) Stop() {
 	close(fb.done)
 }
+
