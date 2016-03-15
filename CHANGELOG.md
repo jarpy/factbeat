@@ -1,3 +1,7 @@
+v0.1.4
+------
+Use Beats logging library correctly.
+
 v0.1.3
 ------
 Add configuration option for Facter location.

@@ -6,7 +6,7 @@ import (
 )
 
 var Name = "factbeat"
-var Version = "0.1.3"
+var Version = "0.1.4"
 
 func main() {
 	beat.Run(Name, Version, factbeat.New())
