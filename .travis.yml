@@ -6,5 +6,7 @@ services:
   - docker
 
 script:
+  - go get github.com/elastic/beats
+  - cd $GOPATH/src/github.com/elastic/beats && git checkout 5.2
   - make test
   - make acceptance-test
