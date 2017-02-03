@@ -18,7 +18,7 @@ kibana:
 factbeat:
   build: docker-compose.d/factbeat
   volumes:
-    - .:/mnt/factbeat:ro
+    - .:/mnt/factbeat
     - ./tests-acceptance/fixtures/facts:/opt/puppetlabs/facter/facts.d:ro
   links:
     - elasticsearch
