@@ -73,7 +73,7 @@ func (bt *Factbeat) Run(b *beat.Beat) error {
 
 		// Run Facter, and feed STDOUT a JSON decoder.
 		// REF: http://www.darrencoxall.com/golang/executing-commands-in-go/
-		logp.Info("Running Facter with: " + *bt.config.Facter + " --json")
+		logp.Debug("beat", "Running Facter with: '" + *bt.config.Facter + " --json'")
 		cmd := exec.Command(*bt.config.Facter, "--json")
 		facterOutput, err := cmd.StdoutPipe()
 
