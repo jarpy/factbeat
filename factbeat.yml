@@ -3,8 +3,18 @@
 ############################# Factbeat ######################################
 
 factbeat:
-  # Defines how often an event is sent to the output
-  period: 1s
+  # Defines how often facts are collected and sent.
+  period: 300s
+
+# Some data structures from Facter create a huge amount of unique fields
+# in Elasticsearch. An example is the vast collection of
+# 'ec2_metadata.network.interfaces.macs.*' facts produced when running
+# Facter on EC2 instances. Your author suggests that you don't try to
+# store these facts.
+processors:
+  - drop_fields:
+      fields:
+        - ec2_metadata.network.interfaces.macs
 
 #================================ General =====================================
 
