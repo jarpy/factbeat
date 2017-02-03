@@ -25,12 +25,6 @@ The downloads for both platforms contain:
 * An example `factbeat.yml` config file
 * The Elasticsearch mapping template: `factbeat.template.json`
 
-It's best to install the mapping template before running Factbeat,
-with something like:
-```
-curl -XPUT 'http://elasticsearch:9200/_template/factbeat' -d@factbeat.template.json
-```
-
 The Windows archive also contains two Powershell scripts, for
 registering and removing the Factbeat Windows service.
 
@@ -38,7 +32,7 @@ Building
 ========
 [![Build Status](https://travis-ci.org/jarpy/factbeat.svg?branch=master)](https://travis-ci.org/jarpy/factbeat)
 
-Factbeat was created in occordance with the [Beat Developer Guide][guide] and
+Factbeat was created in accordance with the [Beats Developer Guide][guide] and
 thus uses the common build system. With the appropriate pre-requisites in
 place, you should be able to simply:
 ```
@@ -50,25 +44,17 @@ to get a `./factbeat` binary.
 
 Acceptance Tests
 ================
-Factbeat ships with a containerized test suite. It
-provides containers that can build the Go source code and run
-its unit tests. There are also containers that manage acceptance
-testing using Python and a live Elasticsearch instance.
+Factbeat ships with a containerized test suite.
 
-The containerized build/test system requires that you have:
+The containerized test system requires that you have:
 * `docker`
 * `docker-compose`
 * `make`
 
-However you don't need to install Go, Elasticsearch, Python etc. They
+However you don't need to install Elasticsearch, Python etc. They
 are all packaged for you in Docker containers.
 
-Given the above dependencies, 
-Though let's not forget:
-```
-make test
-```
-and
+To run the suite, invoke:
 ```
 make acceptance-test
 ```
