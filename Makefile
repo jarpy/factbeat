@@ -38,19 +38,13 @@ git-init:
 	git commit -m "Add Travis CI"
 
 
-# Build all our Docker images. See docker-compose.yml for the list.
-docker:
+# Run the "black box" acceptance tests, injecting data into an Elasticsearch
+# instance, and making assertions about what's in there afterwards.
+.PHONY: acceptance-test
+acceptance-test: factbeat
 	docker-compose stop
 	docker-compose rm --force
 	docker-compose build
-
-docker-build:
-	docker-compose run builder rm -f factbeat
-	docker-compose run -e GOOS=linux builder go build
-
-# Run the "black box" acceptance tests, injecting data into an Elasticsearch
-# instance, and making assertions about what's in there afterwards.
-acceptance-test: factbeat docker
 	docker-compose up -d elasticsearch factbeat
 	docker-compose run tester py.test tests-acceptance
 	docker-compose stop
