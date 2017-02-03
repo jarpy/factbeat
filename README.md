@@ -38,20 +38,24 @@ Building
 ========
 [![Build Status](https://travis-ci.org/jarpy/factbeat.svg?branch=master)](https://travis-ci.org/jarpy/factbeat)
 
-Like all Beats, Factbeat is written in Go. If you are familiar with
-Go, and have a development environment set up, feel free to build
-Factbeat like any other Go program.
+Factbeat was created in occordance with the [Beat Developer Guide][guide] and
+thus uses the common build system. With the appropriate pre-requisites in
+place, you should be able to simply:
+```
+make
+```
+to get a `./factbeat` binary.
 
-However...
+[guide]: https://www.elastic.co/guide/en/beats/libbeat/5.2/new-beat.html
 
-Containers, containers, containers
-----------------------------------
-Factbeat ships with a fully containerized build and test pipeline. It
+Acceptance Tests
+================
+Factbeat ships with a containerized test suite. It
 provides containers that can build the Go source code and run
 its unit tests. There are also containers that manage acceptance
 testing using Python and a live Elasticsearch instance.
 
-The containerized build/test sytem requires that you have:
+The containerized build/test system requires that you have:
 * `docker`
 * `docker-compose`
 * `make`
@@ -59,15 +63,10 @@ The containerized build/test sytem requires that you have:
 However you don't need to install Go, Elasticsearch, Python etc. They
 are all packaged for you in Docker containers.
 
-Given the above dependencies, you should be able to simply:
-```
-make
-```
-to get a `./factbeat` binary.
-
+Given the above dependencies, 
 Though let's not forget:
 ```
-make unit-test
+make test
 ```
 and
 ```
@@ -76,10 +75,6 @@ make acceptance-test
 
 TODO
 ====
-* Allow blacklist/whitelist of facts.
 * Convert percents to beats style ie. "83.3%" -> 0.833
-* Consider removing disk stats all together, since Topbeat has them
-  covered.
 * Improved mapping template.
-* Automate installing the mapping template.
 * _Your suggestions_.

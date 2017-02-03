@@ -1,13 +1,16 @@
 package main
 
 import (
+	"os"
+
 	"github.com/elastic/beats/libbeat/beat"
-	factbeat "github.com/jarpy/factbeat/beat"
+
+	"github.com/jarpy/factbeat/beater"
 )
 
-var Name = "factbeat"
-var Version = "0.1.4"
-
 func main() {
-	beat.Run(Name, Version, factbeat.New())
+	err := beat.Run("factbeat", "", beater.New)
+	if err != nil {
+		os.Exit(1)
+	}
 }

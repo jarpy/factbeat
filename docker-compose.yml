@@ -19,7 +19,7 @@ factbeat:
   build: docker-compose.d/factbeat
   volumes:
     - .:/mnt/factbeat:ro
-    - ./test/fixtures/facts:/opt/puppetlabs/facter/facts.d:ro
+    - ./tests-acceptance/fixtures/facts:/opt/puppetlabs/facter/facts.d:ro
   links:
     - elasticsearch
 

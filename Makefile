@@ -1,26 +1,42 @@
-# Build Factbeat in a dedicated Golang container.
-build: build-linux build-windows
+BEATNAME=factbeat
+BEAT_DIR=github.com/jarpy/factbeat
+SYSTEM_TESTS=false
+TEST_ENVIRONMENT=false
+ES_BEATS?=./vendor/github.com/elastic/beats
+GOPACKAGES=$(shell glide novendor)
+PREFIX?=.
+NOTICE_FILE=NOTICE
 
-build-linux: go-fmt go-get
-	docker-compose run builder rm -f factbeat
-	docker-compose run -e GOOS=linux builder go build
+# Path to the libbeat Makefile
+-include $(ES_BEATS)/libbeat/scripts/Makefile
 
-build-windows: go-fmt go-get
-	docker-compose run builder rm -f factbeat.exe
-	docker-compose run -e GOOS=windows builder go build
+# Initial beat setup
+.PHONY: setup
+setup: copy-vendor
+	make update
 
-go-fmt:
-	docker-compose run builder go fmt
+# Copy beats into vendor directory
+.PHONY: copy-vendor
+copy-vendor:
+	mkdir -p vendor/github.com/elastic/
+	cp -R ${GOPATH}/src/github.com/elastic/beats vendor/github.com/elastic/
+	rm -rf vendor/github.com/elastic/beats/.git
 
-# Fetch Go dependencies.
-go-get:
-	docker-compose run -e GOOS=linux builder go get -d -v
-	docker-compose run -e GOOS=windows builder go get -d -v
-	docker-compose run builder go get github.com/stretchr/testify/assert
+.PHONY: git-init
+git-init:
+	git init
+	git add README.md CONTRIBUTING.md
+	git commit -m "Initial commit"
+	git add LICENSE
+	git commit -m "Add the LICENSE"
+	git add .gitignore
+	git commit -m "Add git settings"
+	git add .
+	git reset -- .travis.yml
+	git commit -m "Add factbeat"
+	git add .travis.yml
+	git commit -m "Add Travis CI"
 
-# Run the "flake8" checker over the acceptance tests, which are in Python.
-flake8:
-	docker-compose run linter flake8 --exclude='.*' test
 
 # Build all our Docker images. See docker-compose.yml for the list.
 docker:
@@ -28,40 +44,22 @@ docker:
 	docker-compose rm --force
 	docker-compose build
 
-# Run Factbeat (and Elasticsearch) in the foreground of your terminal.
-# Also provide Kibana, for browsing the results.
-run: docker build-linux
-	docker-compose up elasticsearch factbeat kibana
-
-# Run the unit tests. These are true _unit_ tests, exercising individual Go functions.
-unit-test: go-get
-	docker-compose run builder go test -v . ./beat
+docker-build:
+	docker-compose run builder rm -f factbeat
+	docker-compose run -e GOOS=linux builder go build
 
 # Run the "black box" acceptance tests, injecting data into an Elasticsearch
 # instance, and making assertions about what's in there afterwards.
-acceptance-test: build docker
+acceptance-test: factbeat docker
 	docker-compose up -d elasticsearch factbeat
-	docker-compose run tester py.test test
+	docker-compose run tester py.test tests-acceptance
 	docker-compose stop
 	docker-compose rm --force
 
-test: unit-test acceptance-test
+# This is called by the beats packer before building starts
+.PHONY: before-build
+before-build:
 
-validate-release:
-ifndef FACTBEAT_RELEASE_VERSION
-	@echo "Please try something like 'FACTBEAT_RELEASE_VERSION=0.1.0 make release'."
-	false
-endif
-	grep -qF 'Version = "$(FACTBEAT_RELEASE_VERSION)"' main.go
-
-release: validate-release clean build test
-	docker-compose run builder tar -czvf factbeat-$(FACTBEAT_RELEASE_VERSION)-x86_64.tar.gz \
-	  factbeat factbeat.template.json factbeat.yml
-	
-	docker-compose run builder zip --junk-paths \
-          factbeat-$(FACTBEAT_RELEASE_VERSION)-windows.zip \
-          factbeat.exe factbeat.template.json factbeat.yml \
-          support/install-service-factbeat.ps1 support/uninstall-service-factbeat.ps1
-
-clean:
-	rm -f factbeat factbeat.exe factbeat-*.zip factbeat-*.tar.gz
+# Collects all dependencies and then calls update
+.PHONY: collect
+collect:

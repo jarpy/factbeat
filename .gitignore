@@ -5,3 +5,5 @@ factbeat-*.tar.gz
 **/.cache
 **/__pycache__
 **/.#
+vendor
+build

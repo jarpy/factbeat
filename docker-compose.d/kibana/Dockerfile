@@ -1,3 +1,2 @@
-FROM kibana:4.4
+FROM kibana:5.2
 ADD config/kibana.yml /opt/kibana/config/
-#RUN chown -R kibana:kibana /opt/kibana

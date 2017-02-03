@@ -1,6 +1,13 @@
-input:
+factbeat:
   period: 5
   facter: "/opt/puppetlabs/puppet/bin/facter"
+
+processors:
+  - drop_fields:
+      fields:
+        - memory
+        - mountpoints
+        - partitions
 
 output:
   elasticsearch:
