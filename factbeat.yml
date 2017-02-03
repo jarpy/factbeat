@@ -4,14 +4,7 @@
 
 factbeat:
   # Defines how often an event is sent to the output
-  period: 300s
-
-processors:
-  - drop_fields:
-      fields:
-        - memory
-        - mountpoints
-	
+  period: 1s
 
 #================================ General =====================================
 

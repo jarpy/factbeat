@@ -1,5 +1,6 @@
 factbeat
 factbeat.exe
+factbeat.test
 factbeat-*.zip
 factbeat-*.tar.gz
 **/.cache
