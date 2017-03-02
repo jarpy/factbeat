@@ -15,6 +15,10 @@ processors:
   - drop_fields:
       fields:
         - ec2_metadata.network.interfaces.macs
+        - networking.interfaces
+        - partitions
+        - mountpoints
+        
 
 #================================ General =====================================
 
